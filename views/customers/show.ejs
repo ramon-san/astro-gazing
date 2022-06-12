@@ -1,0 +1,17 @@
+<%- include('../partials/generalHead') %>
+
+<div>
+    <h1><%= customer.name %> </h1>
+    <h2><%= customer.industry %></h2>
+</div>
+
+<footer>
+    <a href="/customers/<%= customer._id %>/edit">Edit</a>
+    <a href="/customers">All Customers</a>
+</footer>
+
+<form action="/customers/<%= customer._id %>?_method=DELETE" method="POST">
+    <button>Delete</button>
+</form>
+
+<%- include('../partials/generalFoot') %>

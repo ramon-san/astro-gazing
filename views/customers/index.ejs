@@ -1,0 +1,14 @@
+<%- include('../partials/generalHead') %>
+<div>
+    <a href="/customers/new">Add Customer</a>
+</div>
+<div>
+    <h1><%= title %> </h1>
+    <ul>
+        <% for (customer of customers) { %>
+        <li><a href="/customers/<%= customer._id %>"><%= customer.name %></li>
+        <% } %>
+    </ul>
+</div>
+
+<%- include('../partials/generalFoot') %>
