@@ -1,4 +1,4 @@
-<%- include('../partials/generalHead') %>
+<%- layout('layouts/boilerplate') %>
 
 <form action="/customers/<%= customer.id %>?_method=PUT" method="POST">
     <div style="margin-bottom: 10px">
@@ -17,5 +17,3 @@
 <div>
     <a href=" /customers">All customers</a>
 </div>
-
-<%- include('../partials/generalFoot') %>

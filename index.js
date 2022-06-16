@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url'; // Needed to work with path.
 import methodOverride from 'method-override';
 import mongoose from 'mongoose';
+import engine from 'ejs-mate'; // We call in this to create a generic partial.
 // We add our DB schema objects.
 import { Customer } from './models/customer.js'; // File extension is needed.
 
@@ -28,7 +29,9 @@ app.use(express.urlencoded({ extended: true }));
 // We call in the override middleware to allow form requests different than GET or POST.
 app.use(methodOverride('_method'));
 
-// We tell our app to use EJS.
+// We tell our app to use our new engine to make sense of EJS.
+app.engine('ejs', engine);
+// We tell our app to use EJS, the previous engine is used instead of default.
 app.set('view engine', 'ejs');
 // We set the path of our views folder.
 app.set('views', path.join(__dirname, '/views'));

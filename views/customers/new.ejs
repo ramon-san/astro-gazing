@@ -1,5 +1,6 @@
-<%- include('../partials/generalHead') %>
+<%- layout('layouts/boilerplate') %>
 
+<h1><%= title %> </h1>
 <form action="/customers" method="POST">
     <div style="margin-bottom: 10px">
         <label for="name">Name: </label>
@@ -17,5 +18,3 @@
 <div>
     <a href="/customers">All customers</a>
 </div>
-
-<%- include('../partials/generalFoot') %>
