@@ -1,20 +1,46 @@
 <%- layout('layouts/boilerplate') %>
 
-<h1><%= title %> </h1>
-<form action="/customers" method="POST">
-    <div style="margin-bottom: 10px">
-        <label for="name">Name: </label>
-        <!-- Declare as shown in name to encapsulate body result under customer. -->
-        <input type="text" name="customer[name]" id="name" placeholder="Business name">
-        <label for="Industry">Industry: </label>
-        <input type="text" name="customer[industry]" id="industry" placeholder="Industry name">
+<div class="row">
+    <h1 class="text-center"><%= title %> </h1>
+    <div class="col-6 offset-3">
+        <form action="/customers" method="POST">
+            <div class="mb-3">
+                <label class="form-label" for="name">Name: </label>
+                <!-- Declare as shown in name to encapsulate body result under customer. -->
+                <input class="form-control" type="text" name="customer[name]" id="name" placeholder="Business name">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="Industry">Industry: </label>
+                <input class="form-control" type="text" name="customer[industry]" id="industry"
+                    placeholder="Industry name">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="location">Location: </label>
+                <input class="form-control" type="text" name="customer[location]" id="location" placeholder="Location">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="image">Image URL</label>
+                <input class="form-control" type="text" name="customer[image]" id="image" placeholder="Image URL">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="sales">Customer Sales</label>
+                <div class="input-group">
+                    <span class="input-group-text" id="sales-label">$</span>
+                    <input class="form-control" type="number" id="price" value="0" aria-label="sales"
+                        aria-describedby="price-label" name="customer[sales]">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" type="number" name="customer[description]" id="description"
+                    value="0"></textarea>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-success">Submit</button>
+            </div>
+        </form>
+        <div>
+            <a href="/customers">All Customers</a>
+        </div>
     </div>
-    <div style="margin-bottom: 10px">
-        <label for="location">Location: </label>
-        <input type="text" name="customer[location]" id="location" placeholder="Location">
-        <button>Submit</button>
-    </div>
-</form>
-<div>
-    <a href="/customers">All customers</a>
 </div>

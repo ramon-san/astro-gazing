@@ -54,7 +54,7 @@ app.get('/make-customer', async (req, res) => {
 
 // Render page with form to add new customer.
 app.get('/customers/new', (req, res) => {
-    res.render('customers/new', { title: "New Client" });
+    res.render('customers/new', { title: "New Customer" });
 });
 
 // Add new customer to the DB.
@@ -69,7 +69,7 @@ app.get('/customers/:id/edit', async (req, res) => {
     const { id } = req.params;
     try {
         const customer = await Customer.findById(id);
-        res.render('customers/edit', { title: "Edit", customer });
+        res.render('customers/edit', { title: "Edit Customer", customer });
     } catch (err) {
         console.log("Error: " + err)
         res.redirect('/customers');

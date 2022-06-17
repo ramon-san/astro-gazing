@@ -23,11 +23,15 @@ const sample = (array) => array[Math.floor(Math.random() * array.length)];
 const seedDB = async () => {
     await Customer.deleteMany({});
     for (let i = 0; i < 50; i++) {
+        const sales = Math.floor(Math.random() * 1000 + 100);
         const randomCity = Math.floor(Math.random() * cities.length);
         const newCustomer = new Customer({
             name: `${sample(name)} ${sample(action)}`,
             industry: `${sample(industry)}`,
-            location: `${cities[randomCity].city}, ${cities[randomCity].state}`
+            location: `${cities[randomCity].city}, ${cities[randomCity].state}`,
+            description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae ullam dignissimos doloribus earum voluptates quidem fugiat dolore eum ab a magni rem, dolor perspiciatis tempora adipisci, totam ad! Incidunt, mollitia!',
+            image: 'https://source.unsplash.com/collection/2710291',
+            sales: sales
         });
         await newCustomer.save();
     }

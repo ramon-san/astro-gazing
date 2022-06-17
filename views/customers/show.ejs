@@ -1,14 +1,31 @@
 <%- layout('layouts/boilerplate') %>
 
-<div>
-    <h1><%= customer.name %> </h1>
-    <h2><%= customer.industry %></h2>
+
+<div class="col-6 offset-3">
+    <div class="text-center mb-5">
+        <h1>Customer Information</h1>
+    </div>
+    <div class="card text-center mb-5" style="width: 40rem;">
+        <img src="<%= customer.image %>" class="card-img-top" alt="">
+        <div class="card-body">
+            <h5 class="card-title"><%= customer.name %></h5>
+            <p class="card-text"><%= customer.description %></p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item text-muted"><%= customer.location %></li>
+            <li class="list-group-item"><%= customer.industry %></li>
+            <li class="list-group-item">$<%= customer.sales %></li>
+        </ul>
+        <div class="card-body">
+            <div class="card-body">
+                <a class="card-link btn btn-warning" href="/customers/<%= customer._id %>/edit">Edit</a>
+                <form class="d-inline" action="/customers/<%= customer._id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+            <div class="card-footer text-muted">
+                <a href="/customers" class="card-link d-block">All Customers</a>
+            </div>
+        </div>
+    </div>
 </div>
-
-<a href="/customers/<%= customer._id %>/edit">Edit</a>
-
-<form action="/customers/<%= customer._id %>?_method=DELETE" method="POST">
-    <button>Delete</button>
-</form>
-
-<a href="/customers">All Customers</a>

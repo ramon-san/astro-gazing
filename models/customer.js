@@ -15,7 +15,19 @@ const customerSchema = new Schema({
     location: {
         type: String,
         required: true
-    }
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    image: {
+        type: String,
+        required: true
+    },
+    sales: {
+        type: Number,
+        required: true
+    },
 });
 
 // This is how we export in ESM.
