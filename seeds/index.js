@@ -3,13 +3,13 @@
  */
 import mongoose from 'mongoose';
 // We add our DB schema objects.
-import { Customer } from '../models/customer.js'; // File extension is needed.
+import { Camp } from '../models/camps.js'; // File extension is needed.
 // Add seed data.
 import { cities } from './cities.js';
-import { name, action, industry } from './seedHelpers.js';
+import { name, location } from './seedHelpers.js';
 
 // We connect our mongoose library to the running Mongo DB.
-mongoose.connect('mongodb://localhost:27017/disale') // Mongo default port is 27017 and we're currently hard coding.
+mongoose.connect('mongodb://localhost:27017/astroGazing') // Mongo default port is 27017 and we're currently hard coding.
     .then(() => {
         console.log("Seeds DB connection Open!");
     }).catch(err => {
@@ -21,19 +21,17 @@ const sample = (array) => array[Math.floor(Math.random() * array.length)];
 
 // Function to delete previous content and create new one.
 const seedDB = async () => {
-    await Customer.deleteMany({});
+    // Delete all previous camps.
+    await Camp.deleteMany({});
     for (let i = 0; i < 50; i++) {
-        const sales = Math.floor(Math.random() * 1000 + 100);
         const randomCity = Math.floor(Math.random() * cities.length);
-        const newCustomer = new Customer({
-            name: `${sample(name)} ${sample(action)}`,
-            industry: `${sample(industry)}`,
+        const newCamp = new Camp({
+            name: `${sample(name)} ${sample(location)}`,
             location: `${cities[randomCity].city}, ${cities[randomCity].state}`,
             description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae ullam dignissimos doloribus earum voluptates quidem fugiat dolore eum ab a magni rem, dolor perspiciatis tempora adipisci, totam ad! Incidunt, mollitia!',
             image: 'https://source.unsplash.com/collection/2710291',
-            sales: sales
         });
-        await newCustomer.save();
+        await newCamp.save();
     }
 }
 
