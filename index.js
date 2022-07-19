@@ -5,7 +5,7 @@ import methodOverride from 'method-override';
 import mongoose from 'mongoose';
 import engine from 'ejs-mate'; // We call in this to create a generic partial.
 // We add our DB schema objects.
-import { Customer } from './models/customer.js'; // File extension is needed.
+import { Camp } from './models/camps.js'; // File extension is needed.
 
 // We add __filename to get the current path.
 const __filename = fileURLToPath(import.meta.url);
@@ -15,7 +15,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 // We connect our mongoose library to the running Mongo DB.
-mongoose.connect('mongodb://localhost:27017/disale') // Mongo default port is 27017 and we're currently hardcoding.
+mongoose.connect('mongodb://localhost:27017/astroGazing') // Mongo default port is 27017 and we're currently hardcoding.
     .then(() => {
         console.log("DB connection Open!");
     }).catch(err => {
@@ -41,68 +41,68 @@ app.get('/', (req, res) => {
     res.render('home', { title: "Home" });
 });
 
-// Render page indexing all customers.
-app.get('/customers', async (req, res) => {
-    const customers = await Customer.find({});
-    res.render('customers/index', { title: "Customer list", customers });
+// Render page indexing all camps.
+app.get('/camps', async (req, res) => {
+    const camps = await Camp.find({});
+    res.render('camps/index', { title: "Camps", camps });
 });
 
-// Send message to create customers elsewhere.
-app.get('/make-customer', async (req, res) => {
-    res.send('To make customers use seed...');
+// Send message to create camps elsewhere.
+app.get('/make-camp', async (req, res) => {
+    res.send('To make camps use seed...');
 });
 
-// Render page with form to add new customer.
-app.get('/customers/new', (req, res) => {
-    res.render('customers/new', { title: "New Customer" });
+// Render page with form to add new camp.
+app.get('/camps/new', (req, res) => {
+    res.render('camps/new', { title: "New Camp" });
 });
 
-// Add new customer to the DB.
-app.post('/customers', async (req, res) => {
-    const newCustomer = new Customer(req.body.customer);
-    await newCustomer.save();
-    res.redirect(`/customers/${newCustomer._id}`);
+// Add new camp to the DB.
+app.post('/camps', async (req, res) => {
+    const newCamp = new Camp(req.body.camp);
+    await newCamp.save();
+    res.redirect(`/camps/${newCamp._id}`);
 });
 
-// Render page with form to edit new customer.
-app.get('/customers/:id/edit', async (req, res) => {
+// Render page with form to edit new camp.
+app.get('/camps/:id/edit', async (req, res) => {
     const { id } = req.params;
     try {
-        const customer = await Customer.findById(id);
-        res.render('customers/edit', { title: "Edit Customer", customer });
+        const camp = await Camp.findById(id);
+        res.render('camps/edit', { title: "Edit Camp", camp });
     } catch (err) {
         console.log("Error: " + err)
-        res.redirect('/customers');
+        res.redirect('/camps');
     }
 });
 
-app.put('/customers/:id', async (req, res) => {
+app.put('/camps/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        const updateCustomer = await Customer.findByIdAndUpdate(id, req.body.customer, { runValidators: true, new: true });
-        res.redirect(`/customers/${updateCustomer._id}`); // We need to await previous line for this to work.
+        const updateCamp = await Camp.findByIdAndUpdate(id, req.body.camp, { runValidators: true, new: true });
+        res.redirect(`/camps/${updateCamp._id}`); // We need to await previous line for this to work.
     } catch (e) {
         res.send("ERROR: " + e);
     }
 });
 
 // Delete given id.
-app.delete('/customers/:id', async (req, res) => {
+app.delete('/camps/:id', async (req, res) => {
     const { id } = req.params;
-    await Customer.findByIdAndDelete(id);
-    res.redirect('/customers');
+    await Camp.findByIdAndDelete(id);
+    res.redirect('/camps');
 });
 
-// Render page showing a specific customer.
-app.get('/customers/:id', async (req, res) => {
-    const customer = await Customer.findById(req.params.id);
+// Render page showing a specific camp.
+app.get('/camps/:id', async (req, res) => {
+    const camp = await Camp.findById(req.params.id);
     try {
-        res.render('customers/show', { title: customer.name, customer });
+        res.render('camps/show', { title: camp.name, camp });
     } catch (err) {
         console.log("Error: " + err);
     }
 });
 
-app.listen(8080, () => {
-    console.log('Serving on port 8080!');
-})
+app.listen(7070, () => {
+    console.log('Serving on port 7070!');
+});
