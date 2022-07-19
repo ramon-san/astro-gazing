@@ -24,12 +24,14 @@ const seedDB = async () => {
     // Delete all previous camps.
     await Camp.deleteMany({});
     for (let i = 0; i < 50; i++) {
+        const price = Math.floor(Math.random() * 1000 + 100);
         const randomCity = Math.floor(Math.random() * cities.length);
         const newCamp = new Camp({
             name: `${sample(name)} ${sample(location)}`,
             location: `${cities[randomCity].city}, ${cities[randomCity].state}`,
             description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae ullam dignissimos doloribus earum voluptates quidem fugiat dolore eum ab a magni rem, dolor perspiciatis tempora adipisci, totam ad! Incidunt, mollitia!',
-            image: 'https://source.unsplash.com/collection/2710291',
+            price: price,
+            image: 'https://source.unsplash.com/collection/10720921'
         });
         await newCamp.save();
     }
