@@ -5,23 +5,45 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
+    <title>
+        <%= title %>
+    </title>
     <!-- We just set the name of the file we want, public directory is already the only scope. -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
 
 <body class="d-flex flex-column vh-100">
     <%- include('../partials/navbar') %>
-    <main class="container mt-5">
-        <%- body %>
-    </main>
-    <%- include('../partials/footer') %>
-    <!-- We add Popper before Bootstrap JS as recommended in their docs, this comes from CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
-        integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk"
-        crossorigin="anonymous"></script>
-    <!-- Old versions of Bootstrap need JQuery, Bootstrap 5+ doesn't need it anymore. -->
-    <script src="/js/bootstrap.min.js"></script>
+        <main class="container mt-5">
+            <%- body %>
+        </main>
+        <%- include('../partials/footer') %>
+            <!-- We add Popper before Bootstrap JS as recommended in their docs, this comes from CDN -->
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
+                integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk"
+                crossorigin="anonymous"></script>
+            <!-- Old versions of Bootstrap need JQuery, Bootstrap 5+ doesn't need it anymore. -->
+            <script src="/js/bootstrap.min.js"></script>
+            <!-- Script to validate inputs with Bootstrap. -->
+            <script>
+                (function () {
+                    'use strict';
+                    // Fetch all the formas we want to apply customer Bootstrap validation styles to.
+                    const forms = document.querySelectorAll('.validated-form');
+
+                    // Loops over them and prevent submission.
+                    Array.from(forms)
+                        .forEach((form) => {
+                            form.addEventListener('submit', function (event) {
+                                if (!form.checkValidity()) {
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                }
+                                form.classList.add('was-validated');
+                            }, false);
+                        });
+                })();
+            </script>
 </body>
 
 </html>

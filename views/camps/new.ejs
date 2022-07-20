@@ -1,41 +1,76 @@
 <%- layout('layouts/boilerplate') %>
 
-<div class="row">
-    <h1 class="text-center"><%= title %> </h1>
-    <div class="col-6 offset-3">
-        <form action="/camps" method="POST">
-            <div class="mb-3">
-                <label class="form-label" for="name">Name: </label>
-                <!-- Declare as shown in name to encapsulate body result under camp. -->
-                <input class="form-control" type="text" name="camp[name]" id="name" placeholder="Business name">
-            </div>
-            <div class="mb-3">
-                <label class="form-label" for="location">Location: </label>
-                <input class="form-control" type="text" name="camp[location]" id="location" placeholder="Location">
-            </div>
-            <div class="mb-3">
-                <label class="form-label" for="image">Image URL</label>
-                <input class="form-control" type="text" name="camp[image]" id="image" placeholder="Image URL">
-            </div>
-            <div class="mb-3">
-                <label class="form-label" for="price">Camp Price</label>
-                <div class="input-group">
-                    <span class="input-group-text" id="price-label">$</span>
-                    <input class="form-control" type="number" id="price" value="0" aria-label="sales"
-                        aria-describedby="price-label" name="camp[price]">
+    <div class="row">
+        <h1 class="text-center">
+            <%= title %>
+        </h1>
+        <div class="col-6 offset-3">
+            <form action="/camps" method="POST" novalidate class="validated-form">
+                <div class="mb-3">
+                    <label class="form-label" for="name">Name: </label>
+                    <!-- Declare as shown in name to encapsulate body result under camp. -->
+                    <input class="form-control" type="text" name="camp[name]" id="name" placeholder="Business name"
+                        required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please fill in this input.
+                    </div>
                 </div>
+                <div class="mb-3">
+                    <label class="form-label" for="location">Location: </label>
+                    <input class="form-control" type="text" name="camp[location]" id="location" placeholder="Location"
+                        required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please fill in this input.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="image">Image URL</label>
+                    <input class="form-control" type="text" name="camp[image]" id="image" placeholder="Image URL"
+                        required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please fill in this input.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="price">Camp Price</label>
+                    <div class="input-group">
+                        <span class="input-group-text" id="price-label">$</span>
+                        <input class="form-control" type="number" id="price" aria-label="sales"
+                            aria-describedby="price-label" name="camp[price]" placeholder="0.00" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Please fill in this input.
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="description">Description</label>
+                    <textarea class="form-control" type="number" name="camp[description]" id="description" value="0"
+                        required></textarea>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please fill in this input.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-success">Submit</button>
+                </div>
+            </form>
+            <div>
+                <a href="/camps">All Camps</a>
             </div>
-            <div class="mb-3">
-                <label class="form-label" for="description">Description</label>
-                <textarea class="form-control" type="number" name="camp[description]" id="description"
-                    value="0"></textarea>
-            </div>
-            <div class="mb-3">
-                <button class="btn btn-success">Submit</button>
-            </div>
-        </form>
-        <div>
-            <a href="/camps">All Camps</a>
         </div>
     </div>
-</div>
