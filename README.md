@@ -56,11 +56,13 @@ At root (`./`) this project contains the following directories beside basic boil
 - `models/` this directory contains "schemas" for our Mongo databases.
 - `public/` this directory contains source code for the Bootstrap version we're using, this is used to avoid making additional calls to the CDN.
 - `seeds/` this directory contains basic scripts to create our databases with random values.
-- `views/` this directory contains the actual code for our website. Here we have a file called `home.ejs` which holds code for the website's landing page and a deeper directory structure:
+- `utils/` this directory contains basic error handling procedures (`catchAsync.js`) and a generic class for errors (`ExpressErrors.js`).
+- `views/` this directory contains the actual code for our website. Here we have a file called `home.ejs` which holds code for the website's landing page, another file called `error.ejs` which works as a page for error handling, and a deeper directory structure:
   - `camps/` this directory contains the code for each page.
   - `layouts/` this contains basic boilerplate we connect with all our pages.
-  - `partials/` this contains basic structure elements we connect to our boilerplate.
+  - `partials/` this contains basic structure elements we connect to our boilerplate (navbar and footer).
 
 At root (`./`) this project contains the following files besides basic boilerplate:
 
 - `index.js` this file has all the Express connections our website uses.
+- `schemas.js` this file uses the joi library to check JSON structures.
