@@ -5,8 +5,10 @@ import methodOverride from 'method-override';
 import mongoose from 'mongoose';
 import engine from 'ejs-mate'; // We call in this to create a generic partial.
 // Add basic error handling function and class.
-import ExpressError from './utils/ExpressError.js'
-import catchAsync from './utils/catchAsync.js'
+import ExpressError from './utils/ExpressError.js';
+import catchAsync from './utils/catchAsync.js';
+// Add joi schemas.
+import { campSchema } from './schemas.js';
 // Add DB schema objects.
 import { Camp } from './models/camps.js'; // File extension is needed.
 
@@ -39,6 +41,18 @@ app.set('view engine', 'ejs');
 // We set the path of our views folder.
 app.set('views', path.join(__dirname, '/views'));
 
+// Middleware used to validate camps.
+const validateCamp = (req, res, next) => {
+    const { error } = campSchema.validate(req.body);
+    if (error) {
+        // Go through objet and check all errors.
+        const msg = error.details.map(element => element.message).join(', ');
+        throw new ExpressError(msg, 400);
+    } else {
+        next();
+    }
+}
+
 // Render Landing Page.
 app.get('/', (req, res) => {
     res.render('home', { title: "Home" });
@@ -61,8 +75,7 @@ app.get('/camps/new', (req, res) => {
 });
 
 // Add new camp to the DB.
-app.post('/camps', catchAsync(async (req, res, next) => {
-    // Field requirements are handled through Mongoose schema.
+app.post('/camps', validateCamp, catchAsync(async (req, res, next) => {
     const newCamp = new Camp(req.body.camp);
     await newCamp.save();
     res.redirect(`/camps/${newCamp._id}`);
@@ -75,7 +88,7 @@ app.get('/camps/:id/edit', catchAsync(async (req, res) => {
     res.render('camps/edit', { title: "Edit Camp", camp });
 }));
 
-app.put('/camps/:id', catchAsync(async (req, res) => {
+app.put('/camps/:id', validateCamp, catchAsync(async (req, res) => {
     const { id } = req.params;
     const updateCamp = await Camp.findByIdAndUpdate(id, req.body.camp, { runValidators: true, new: true });
     res.redirect(`/camps/${updateCamp._id}`); // We need to await previous line for this to work.
