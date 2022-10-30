@@ -4,7 +4,9 @@ import { fileURLToPath } from 'url'; // Needed to work with path.
 import methodOverride from 'method-override';
 import mongoose from 'mongoose';
 import engine from 'ejs-mate'; // We call in this to create a generic partial.
-// We add our DB schema objects.
+// Add basic error handling.
+import catchAsync from './utils/catchAsync.js'
+// Add DB schema objects.
 import { Camp } from './models/camps.js'; // File extension is needed.
 
 // We add __filename to get the current path.
@@ -58,56 +60,39 @@ app.get('/camps/new', (req, res) => {
 });
 
 // Add new camp to the DB.
-app.post('/camps', async (req, res, next) => {
-    try {
-        const newCamp = new Camp(req.body.camp);
-        await newCamp.save();
-        res.redirect(`/camps/${newCamp._id}`);
-    } catch (error) {
-        next(error);
-    }
-});
+app.post('/camps', catchAsync(async (req, res, next) => {
+    const newCamp = new Camp(req.body.camp);
+    await newCamp.save();
+    res.redirect(`/camps/${newCamp._id}`);
+}));
 
 // Render page with form to edit new camp.
-app.get('/camps/:id/edit', async (req, res) => {
+app.get('/camps/:id/edit', catchAsync(async (req, res) => {
     const { id } = req.params;
-    try {
-        const camp = await Camp.findById(id);
-        res.render('camps/edit', { title: "Edit Camp", camp });
-    } catch (err) {
-        console.log("Error: " + err);
-        res.redirect('/camps');
-    }
-});
+    const camp = await Camp.findById(id);
+    res.render('camps/edit', { title: "Edit Camp", camp });
+}));
 
-app.put('/camps/:id', async (req, res) => {
+app.put('/camps/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
-    try {
-        const updateCamp = await Camp.findByIdAndUpdate(id, req.body.camp, { runValidators: true, new: true });
-        res.redirect(`/camps/${updateCamp._id}`); // We need to await previous line for this to work.
-    } catch (e) {
-        res.send("ERROR: " + e);
-    }
-});
+    const updateCamp = await Camp.findByIdAndUpdate(id, req.body.camp, { runValidators: true, new: true });
+    res.redirect(`/camps/${updateCamp._id}`); // We need to await previous line for this to work.
+}));
 
 // Delete given id.
-app.delete('/camps/:id', async (req, res) => {
+app.delete('/camps/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
     await Camp.findByIdAndDelete(id);
     res.redirect('/camps');
-});
+}));
 
 // Render page showing a specific camp.
-app.get('/camps/:id', async (req, res) => {
+app.get('/camps/:id', catchAsync(async (req, res) => {
     const camp = await Camp.findById(req.params.id);
-    try {
-        res.render('camps/show', { title: camp.name, camp });
-    } catch (err) {
-        console.log("Error: " + err);
-    }
-});
+    res.render('camps/show', { title: camp.name, camp });
+}));
 
-// Basic error handling.
+// Basic error handling function.
 app.use((err, req, res, next) => {
     res.send('Oh boy, something went wrong.')
 });
