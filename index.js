@@ -58,10 +58,14 @@ app.get('/camps/new', (req, res) => {
 });
 
 // Add new camp to the DB.
-app.post('/camps', async (req, res) => {
-    const newCamp = new Camp(req.body.camp);
-    await newCamp.save();
-    res.redirect(`/camps/${newCamp._id}`);
+app.post('/camps', async (req, res, next) => {
+    try {
+        const newCamp = new Camp(req.body.camp);
+        await newCamp.save();
+        res.redirect(`/camps/${newCamp._id}`);
+    } catch (error) {
+        next(error);
+    }
 });
 
 // Render page with form to edit new camp.
@@ -71,7 +75,7 @@ app.get('/camps/:id/edit', async (req, res) => {
         const camp = await Camp.findById(id);
         res.render('camps/edit', { title: "Edit Camp", camp });
     } catch (err) {
-        console.log("Error: " + err)
+        console.log("Error: " + err);
         res.redirect('/camps');
     }
 });
@@ -101,6 +105,11 @@ app.get('/camps/:id', async (req, res) => {
     } catch (err) {
         console.log("Error: " + err);
     }
+});
+
+// Basic error handling.
+app.use((err, req, res, next) => {
+    res.send('Oh boy, something went wrong.')
 });
 
 app.listen(7070, () => {

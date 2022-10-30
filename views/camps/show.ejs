@@ -6,7 +6,10 @@
         <h1>Camp Information</h1>
     </div>
     <div class="card text-center mb-5" style="width: 40rem;">
+        // Check if image is an adequate URL.
+        <% if (/(https:|http:)/.test(camp.image)) { %>
         <img src="<%= camp.image %>" class="card-img-top" alt="">
+        <% } %>
         <div class="card-body">
             <h5 class="card-title"><%= camp.name %></h5>
             <p class="card-text"><%= camp.description %></p>
