@@ -1,12 +1,11 @@
 <%- layout('layouts/boilerplate') %>
 
-
 <div class="col-6 offset-3">
     <div class="text-center mb-5">
         <h1>Camp Information</h1>
     </div>
     <div class="card text-center mb-5" style="width: 40rem;">
-        // Check if image is an adequate URL.
+        <!-- Check if image is an adequate URL. -->
         <% if (/(https:|http:)/.test(camp.image)) { %>
         <img src="<%= camp.image %>" class="card-img-top" alt="">
         <% } %>

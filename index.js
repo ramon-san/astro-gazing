@@ -4,7 +4,8 @@ import { fileURLToPath } from 'url'; // Needed to work with path.
 import methodOverride from 'method-override';
 import mongoose from 'mongoose';
 import engine from 'ejs-mate'; // We call in this to create a generic partial.
-// Add basic error handling.
+// Add basic error handling function and class.
+import ExpressError from './utils/ExpressError.js'
 import catchAsync from './utils/catchAsync.js'
 // Add DB schema objects.
 import { Camp } from './models/camps.js'; // File extension is needed.
@@ -61,6 +62,7 @@ app.get('/camps/new', (req, res) => {
 
 // Add new camp to the DB.
 app.post('/camps', catchAsync(async (req, res, next) => {
+    // Field requirements are handled through Mongoose schema.
     const newCamp = new Camp(req.body.camp);
     await newCamp.save();
     res.redirect(`/camps/${newCamp._id}`);
@@ -92,9 +94,16 @@ app.get('/camps/:id', catchAsync(async (req, res) => {
     res.render('camps/show', { title: camp.name, camp });
 }));
 
+// Create basic 404 for anything that doesn't match.
+app.all('*', (req, res, next) => {
+    next(new ExpressError('Page Not Found', 404));
+})
+
 // Basic error handling function.
 app.use((err, req, res, next) => {
-    res.send('Oh boy, something went wrong.')
+    const { statusCode = 500 } = err;
+    if (!err.message) err.message = 'Oh no! Something went wrong'
+    res.status(statusCode).render('error', { title: "Error Page", err });
 });
 
 app.listen(7070, () => {
