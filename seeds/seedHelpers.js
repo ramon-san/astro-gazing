@@ -19,7 +19,8 @@ export const name = [
     'Taiwan',
     'Peruvian',
     'Lady',
-    'Holy'
+    'Holy',
+    'Martian'
 ];
 
 // Seed to compliment camp name.
